@@ -1,5 +1,5 @@
-import TableComp from './components/Table.vue'
-import LoginComp from './page/Login/Login.vue'
+import TableComp from './views/Table.vue'
+import LoginComp from './views/Login.vue'
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 

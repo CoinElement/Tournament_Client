@@ -10,6 +10,7 @@
         </div>
         <div>
             <button v-on:click="login">登录</button>
+            <button v-on:click="pping">ping</button>
         </div>
     </div>
 </template>
@@ -45,6 +46,9 @@ export default {
                         this.$router.push('/table');
                     }
                 });
+        },
+        pping: function() {
+            this.$socket.client.emit('ping', { data: 'from client' });
         },
     },
 };
