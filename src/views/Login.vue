@@ -1,16 +1,14 @@
 <template>
     <div>
-        <div>
-            <span>username</span>
-            <input type="text" v-model="username" />
+        <div class="input-box">
+            <el-input v-model="username" placeholder="username" />
         </div>
-        <div>
-            <span>password</span>
-            <input type="text" v-model="password" />
+        <div class="input-box">
+            <el-input v-model="password" placeholder="password" show-password />
         </div>
-        <div>
-            <button v-on:click="login">登录</button>
-            <button v-on:click="pping">ping</button>
+        <div class="button-box">
+            <el-button v-on:click="login">登录</el-button>
+            <el-button v-on:click="pping">ping</el-button>
         </div>
     </div>
 </template>
@@ -27,7 +25,7 @@ export default {
         login: function() {
             this.axios
                 .post(
-                    'http://127.0.0.1:8080/login',
+                    process.env.VUE_APP_URL + '/login',
                     {
                         user_id: '123',
                         name: '123',
@@ -48,8 +46,19 @@ export default {
                 });
         },
         pping: function() {
-            this.$socket.client.emit('ping', { data: 'from client' });
+            this.$socket.client.emit('ping');
+        },
+    },
+    sockets: {
+        connect() {
+            console.log('socket connected');
         },
     },
 };
 </script>
+
+<style scoped>
+.input-box {
+    margin: 20px;
+}
+</style>

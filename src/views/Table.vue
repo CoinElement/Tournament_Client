@@ -1,17 +1,16 @@
 <template>
     <div class="container">
         <div style="margin: 50px">
-            <select id="tours" v-model="tournament_id">
-                <option
+            <el-select id="tours" v-model="tournament_id">
+                <el-option
                     v-for="tour in tournament_id_list"
                     :key="tour"
                     :value="tour"
                 >
                     {{ tour }}
-                </option>
-            </select>
-            <button v-on:click="pull_data">拉取数据</button>
-            <button v-on:click="pping">Ping</button>
+                </el-option>
+            </el-select>
+            <el-button v-on:click="pull_data">拉取数据</el-button>
         </div>
         <div class="tour-container">
             <div
@@ -23,6 +22,11 @@
                     v-for="(team, tindex) in table"
                     v-bind:key="tindex"
                     v-bind:groupname="team"
+                    v-bind:round="index"
+                    v-bind:table="tindex"
+                    v-bind:groups="groups[0]"
+                    v-bind:rates="rates"
+                    v-bind:islast="index == groups.length - 1"
                 />
             </div>
         </div>
@@ -40,21 +44,27 @@ export default {
     },
     data() {
         return {
-            groups: [
-                ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-                ['A', ' ', ' ', ' '],
-                [' ', ' '],
-                [' '],
-            ],
+            groups: [],
             tournament_id: '',
             tournament_id_list: [],
+            rates: [],
         };
+    },
+    watch: {
+        tournament_id: function(newVal, oldVal) {
+            if (oldVal != '') {
+                this.$socket.client.emit('leave', oldVal);
+            }
+            if (newVal != '') {
+                this.$socket.client.emit('join', newVal);
+            }
+        },
     },
     methods: {
         pull_data: function() {
             this.axios
                 .post(
-                    'http://127.0.0.1:8080/refreshtable',
+                    'http://3.131.128.209:8080' + '/refreshtable',
                     {
                         token: localStorage.JWT_TOKEN,
                         tournament_id: this.tournament_id,
@@ -66,17 +76,28 @@ export default {
                 .then((response) => {
                     // console.log(response);
                     this.groups = response.data.data;
+                    // this.tournament_id = response.data.data[0];
                 });
-        },
-        pping: function() {
-            console.log('pping');
-            this.$socket.emit('ping', JSON.stringify({ data: 'dddd' }));
+            this.axios
+                .post(
+                    'http://3.131.128.209:8080/getrate',
+                    {
+                        token: localStorage.JWT_TOKEN,
+                        tournament_id: this.tournament_id,
+                    },
+                    {
+                        'Content-Type': 'application/json',
+                    }
+                )
+                .then((response) => {
+                    this.rates = response.data.data;
+                });
         },
     },
     mounted: function() {
         this.axios
             .post(
-                'http://127.0.0.1:8080/getalltournamentid',
+                'http://3.131.128.209:8080/getalltournamentid',
                 {
                     token: localStorage.JWT_TOKEN,
                 },
@@ -87,25 +108,27 @@ export default {
             .then((response) => {
                 console.log('getalltournamentid');
                 this.tournament_id_list = response.data.data;
+                this.tournament_id = response.data.data[0];
+                this.pull_data();
             });
-        // console.log('JWT_TOKEN:' + localStorage.JWT_TOKEN);
-        // this.$socket.emit('connect', 1);
     },
-    /*
     sockets: {
-        connect: function() {
-            console.log('Socket connected');
-        },
-        reconnect(data) {
-            console.log('reconnect', data);
-            this.$socket.emit('connect', 1);
-        },
-        disconnect(data) {
-            console.log('disconnect', data);
-            this.$socket.emit('reconnect');
+        refresh: function(data) {
+            if (data != null) {
+                console.log(data);
+                var jsonData = JSON.parse(data);
+                console.log(jsonData);
+                if (jsonData.status === 'success') {
+                    console.log('success');
+                    this.$set(
+                        this.groups[jsonData.round - 1],
+                        jsonData.table - 1,
+                        jsonData.team_name
+                    );
+                }
+            }
         },
     },
-    */
 };
 </script>
 
@@ -121,7 +144,7 @@ export default {
 .round-container {
     display: table;
     width: 100%;
-    height: 70px;
+    height: 90px;
     table-layout: fixed;
 }
 </style>
