@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
-var socket = io("http://localhost:8080");
+var socket = io("http://3.131.128.209:8080");
 Vue.prototype.$socket = socket;
 Vue.config.productionTip = false;
 Vue.use(VTooltip);
