@@ -63,14 +63,12 @@ export default {
     methods: {
         pull_data: function() {
             this.axios
-                .post(
-                    'http://3.131.128.209:8080' + '/refreshtable',
-                    {
-                        token: localStorage.JWT_TOKEN,
-                        tournament_id: this.tournament_id,
-                    },
+                .get(
+                    'http://3.131.128.209:8080/matchschedule/' +
+                        this.tournament_id,
                     {
                         'Content-Type': 'application/json',
+                        token: localStorage.JWT_TOKEN,
                     }
                 )
                 .then((response) => {
@@ -79,14 +77,11 @@ export default {
                     // this.tournament_id = response.data.data[0];
                 });
             this.axios
-                .post(
-                    'http://3.131.128.209:8080/getrate',
-                    {
-                        token: localStorage.JWT_TOKEN,
-                        tournament_id: this.tournament_id,
-                    },
+                .get(
+                    'http://3.131.128.209:8080/getrate/' + this.tournament_id,
                     {
                         'Content-Type': 'application/json',
+                        token: localStorage.JWT_TOKEN,
                     }
                 )
                 .then((response) => {
@@ -96,15 +91,10 @@ export default {
     },
     mounted: function() {
         this.axios
-            .post(
-                'http://3.131.128.209:8080/getalltournamentid',
-                {
-                    token: localStorage.JWT_TOKEN,
-                },
-                {
-                    'Content-Type': 'application/json',
-                }
-            )
+            .get('http://3.131.128.209:8080/alltournament', {
+                'Content-Type': 'application/json',
+                token: localStorage.JWT_TOKEN,
+            })
             .then((response) => {
                 console.log('getalltournamentid');
                 this.tournament_id_list = response.data.data;
