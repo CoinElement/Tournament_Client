@@ -68,7 +68,7 @@ export default {
                         this.tournament_id,
                     {
                         'Content-Type': 'application/json',
-                        token: localStorage.JWT_TOKEN,
+                        'token': localStorage.JWT_TOKEN,
                     }
                 )
                 .then((response) => {
@@ -81,7 +81,7 @@ export default {
                     'http://3.131.128.209:8080/getrate/' + this.tournament_id,
                     {
                         'Content-Type': 'application/json',
-                        token: localStorage.JWT_TOKEN,
+                        'token': localStorage.JWT_TOKEN,
                     }
                 )
                 .then((response) => {
@@ -93,7 +93,7 @@ export default {
         this.axios
             .get('http://3.131.128.209:8080/alltournament', {
                 'Content-Type': 'application/json',
-                token: localStorage.JWT_TOKEN,
+                'token': localStorage.JWT_TOKEN,
             })
             .then((response) => {
                 console.log('getalltournamentid');

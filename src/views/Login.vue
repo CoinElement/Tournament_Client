@@ -25,7 +25,7 @@ export default {
         login: function() {
             this.axios
                 .post(
-                    'http://3.131.128.209:8080' + '/login',
+                    'http://3.131.128.209:8080/login',
                     {
                         user_id: '123',
                         name: '123',
