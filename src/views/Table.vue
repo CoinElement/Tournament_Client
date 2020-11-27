@@ -63,27 +63,24 @@ export default {
     methods: {
         pull_data: function() {
             this.axios
-                .get(
-                    'http://3.131.128.209:8080/matchschedule/' +
-                        this.tournament_id,
-                    {
-                        'Content-Type': 'application/json',
+                .get('http://3.131.128.209:8080/matchschedule/' + this.tournament_id, {
+                    headers:{ 
+                        'Content-Type': 'application/json;charset=UTF-8',
                         'token': localStorage.JWT_TOKEN,
                     }
-                )
+                })
                 .then((response) => {
                     // console.log(response);
                     this.groups = response.data.data;
                     // this.tournament_id = response.data.data[0];
                 });
             this.axios
-                .get(
-                    'http://3.131.128.209:8080/getrate/' + this.tournament_id,
-                    {
-                        'Content-Type': 'application/json',
+                .get('http://3.131.128.209:8080/getrate/' + this.tournament_id, {
+                    headers:{ 
+                        'Content-Type': 'application/json;charset=UTF-8',
                         'token': localStorage.JWT_TOKEN,
                     }
-                )
+                })
                 .then((response) => {
                     this.rates = response.data.data;
                 });
