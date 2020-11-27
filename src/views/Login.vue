@@ -24,7 +24,7 @@ export default {
     methods: {
         login: function() {
             this.axios
-                .get(
+                .post(
                     'http://3.131.128.209:8080' + '/login',
                     {
                         user_id: '123',
