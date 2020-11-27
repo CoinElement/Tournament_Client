@@ -92,8 +92,10 @@ export default {
     mounted: function() {
         this.axios
             .get('http://3.131.128.209:8080/alltournament', {
-                'Content-Type': 'application/json',
-                'token': localStorage.JWT_TOKEN,
+                headers:{ 
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'token': localStorage.JWT_TOKEN,
+                }
             })
             .then((response) => {
                 console.log('getalltournamentid');
