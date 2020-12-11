@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="input-box">
-            <el-input v-model="username" placeholder="username" />
+            <el-input v-model="userName" placeholder="username" />
         </div>
         <div class="input-box">
-            <el-input v-model="password" placeholder="password" show-password />
+            <el-input v-model="secretKey" placeholder="password" show-password />
         </div>
         <div class="button-box">
             <el-button v-on:click="login">登录</el-button>
-            <el-button v-on:click="pping">ping</el-button>
         </div>
+
     </div>
 </template>
 
@@ -17,20 +17,18 @@
 export default {
     data() {
         return {
-            username: '',
-            password: '',
+            userName: '',
+            secretKey: '',
         };
     },
     methods: {
         login: function() {
             this.axios
                 .post(
-                    'http://3.131.128.209:8080/login',
+                    'http://127.0.0.1:8080/user',
                     {
-                        user_id: '123',
-                        name: '123',
-                        username: this.username,
-                        password: this.password,
+                        userName: this.userName,
+                        secretKey: this.secretKey,
                     },
                     {
                         'Content-Type': 'application/json',
@@ -38,20 +36,16 @@ export default {
                 )
                 .then((response) => {
                     console.log(response);
-
                     if (response.data.msg == 'success') {
-                        localStorage.JWT_TOKEN = response.data.token;
+                        localStorage.USER_NAME = response.data.userName;
+                        localStorage.HOSTED_TOURNAMENT = response.data.hostedTournament;
+                        alert("登录成功!");
                         this.$router.push('/table');
                     }
+                    else {
+                        alert("用户名或密码输入错误!");
+                    }
                 });
-        },
-        pping: function() {
-            this.$socket.client.emit('ping');
-        },
-    },
-    sockets: {
-        connect() {
-            console.log('socket connected');
         },
     },
 };

@@ -6,17 +6,17 @@ import axios from 'axios'
 import VTooltip from 'v-tooltip'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import VueSocketIOExt from 'vue-socket.io-extended';
-import io from 'socket.io-client';
+//import VueSocketIOExt from 'vue-socket.io-extended';
+//import io from 'socket.io-client';
 
-var socket = io("http://3.131.128.209:8080");
-Vue.prototype.$socket = socket;
+//var socket = io("http://127.0.0.1:8080");
+//Vue.prototype.$socket = socket;
 Vue.config.productionTip = false;
 Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI)
-Vue.use(VueSocketIOExt, socket)
-console.log(process.env)
+//Vue.use(VueSocketIOExt, socket)
+//console.log(process.env)
 
 new Vue({
   el: "#app",

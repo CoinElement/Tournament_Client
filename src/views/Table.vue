@@ -63,7 +63,7 @@ export default {
     methods: {
         pull_data: function() {
             this.axios
-                .get('http://3.131.128.209:8080/matchschedule/' + this.tournament_id, {
+                .get('http://127.0.0.1:8080/matchschedule/' + this.tournament_id, {
                     headers:{ 
                         'Content-Type': 'application/json;charset=UTF-8',
                         'token': localStorage.JWT_TOKEN,
@@ -75,7 +75,7 @@ export default {
                     // this.tournament_id = response.data.data[0];
                 });
             this.axios
-                .get('http://3.131.128.209:8080/getrate/' + this.tournament_id, {
+                .get('http://127.0.0.1:8080/getrate/' + this.tournament_id, {
                     headers:{ 
                         'Content-Type': 'application/json;charset=UTF-8',
                         'token': localStorage.JWT_TOKEN,
@@ -88,7 +88,7 @@ export default {
     },
     mounted: function() {
         this.axios
-            .get('http://3.131.128.209:8080/alltournament', {
+            .get('http://127.0.0.1:8080/alltournament', {
                 headers:{ 
                     'Content-Type': 'application/json;charset=UTF-8',
                     'token': localStorage.JWT_TOKEN,
