@@ -60,9 +60,6 @@ export default {
 </script>
 
 <style scoped>
-.tournament-container {
-  height: 900px;
-}
 .round-container {
   display: table;
   width: 100%;

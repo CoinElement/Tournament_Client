@@ -1,9 +1,14 @@
 <template>
-  <div></div>
+  <div class="header">
+    <logout-button />
+  </div>
 </template>
 
 <script>
-export default {};
+import LogoutButton from "./LogoutButton.vue";
+export default {
+  components: { LogoutButton }
+};
 </script>
 
-<style></style>
+<style scoped></style>

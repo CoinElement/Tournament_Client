@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     selectedTournamentId: function(newVal) {
-      this.$emit("onTournamentSelected", newVal);
+      this.$emit("tournamentSelected", newVal);
     }
   }
 };

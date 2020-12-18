@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-header>
+    <el-header class="header">
       <Header />
     </el-header>
     <el-aside>
-      <Aside />
+      <SideBar />
     </el-aside>
     <el-main>
       <router-view />
@@ -14,10 +14,10 @@
 
 <script>
 import Header from "@/components/Home/Header";
-import Aside from "@/components/Home/Aside";
+import SideBar from "@/components/Home/SideBar";
 
 export default {
-  components: { Header, Aside }
+  components: { Header, SideBar }
 };
 </script>
 
