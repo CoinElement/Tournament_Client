@@ -8,11 +8,11 @@
       @click="openSetResult()"
     >
       <i class="el-icon-user" />
-      <span>{{ groupname }}</span>
+      <span>{{ teamName }}</span>
     </div>
     <div class="line-container">
-      <div :class="{ 'left-line': !is_left && !islast }" class="line" />
-      <div :class="{ 'right-line': is_left && !islast }" class="line" />
+      <div :class="{ 'left-line': !is_left && !isLast }" class="line" />
+      <div :class="{ 'right-line': is_left && !isLast }" class="line" />
     </div>
   </div>
 </template>
@@ -26,15 +26,16 @@ export default {
     };
   },
   props: {
-    groupname: String,
+    teamName: String,
     round: Number,
     table: Number,
     groups: Object,
-    rates: Array,
-    islast: Boolean
+    rateMap: Map,
+    isLast: Boolean
   },
   created: function() {
     this.is_left = this.table % 2 == 0;
+    this.updateRate();
   },
   methods: {
     selectStyle: function() {
@@ -43,16 +44,20 @@ export default {
     openSetResult: function() {
       console.log("Child openSetResult()");
       this.$emit("openSetResult", this.round, this.table);
+    },
+    updateRate: function() {
+      if (this.teamName === "") {
+        this.tool_tip = "No Team";
+      } else {
+        this.tool_tip = `${this.teamName} Rate: ${this.rateMap.get(
+          this.teamName
+        )}`;
+      }
     }
   },
   watch: {
-    rates: function(newVal) {
-      if (this.groupname === "") {
-        this.tool_tip = "No Team";
-      } else {
-        var indexOfTeam = this.groups.indexOf(this.groupname);
-        this.tool_tip = "Rate: " + newVal[indexOfTeam] + "%";
-      }
+    teamName: function() {
+      this.updateRate();
     }
   }
 };

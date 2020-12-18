@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="input-box">
-      <el-input v-model="userName" placeholder="username" />
+      <el-input v-model="userName" placeholder="用户名" />
     </div>
     <div class="input-box">
-      <el-input v-model="secretKey" placeholder="password" show-password />
+      <el-input v-model="secretKey" placeholder="密码" show-password />
     </div>
     <div class="button-box">
       <el-button @click="login">
@@ -25,23 +25,16 @@ export default {
   methods: {
     login: function() {
       this.axios
-        .post(
-          process.env.VUE_APP_BACKEND_BASE + "/user",
-          {
-            userName: this.userName,
-            secretKey: this.secretKey
-          },
-          {
-            "Content-Type": "application/json"
-          }
-        )
+        .post("/user", {
+          userName: this.userName,
+          secretKey: this.secretKey
+        })
         .then(response => {
           console.log(response);
           if (response.data.msg == "success") {
-            localStorage.USER_NAME = response.data.userName;
-            localStorage.HOSTED_TOURNAMENT = response.data.hostedTournament;
+            this.$store.commit("user/login", response.data.userName);
             alert("登录成功!");
-            this.$router.push("/table");
+            this.$router.push("/home/");
           } else {
             alert("用户名或密码输入错误!");
           }

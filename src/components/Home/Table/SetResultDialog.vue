@@ -2,15 +2,21 @@
   <el-dialog
     title="设置比赛结果"
     :visible.sync="resultDialogVisible"
-    width="500px"
+    :close-on-click-modal="false"
+    width="600px"
     @close="onClose()"
   >
     <div>
       <div>
-        Tournament: <el-input v-model="tournamentId" :readonly="true" />
+        Tournament:
+        <el-input
+          v-model="tournamentId"
+          :label="'Tournament:'"
+          :readonly="true"
+        />
       </div>
       <div>Round: <el-input v-model="round" :readonly="true" /></div>
-      <div>Table: <el-input v-model="table" /></div>
+      <div>Table: <el-input v-model="table" :readonly="true" /></div>
       <el-radio-group v-model="result">
         <el-radio :label="'TEAM_ONE'">队伍1</el-radio>
         <el-radio :label="'TEAM_TWO'">队伍2</el-radio>
@@ -52,18 +58,9 @@ export default {
     },
     postSetResult: function(tournamentid, round, table, result) {
       this.axios
-        .post(
-          process.env.VUE_APP_BACKEND_BASE +
-            "/tournament/" +
-            tournamentid +
-            "/" +
-            round +
-            "/" +
-            table,
-          {
-            winner: result
-          }
-        )
+        .post(`/tournament/${this.tournamentId}/${this.round}/${this.table}`, {
+          winner: result
+        })
         .then(response => {
           console.log("SetResult response:", response);
         });
