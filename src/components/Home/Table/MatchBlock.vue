@@ -1,15 +1,14 @@
 <template>
   <div class="block-container">
     <div class="up-line" :class="{ 'up-line-show': round != 0 }" />
-    <div
-      class="block"
-      v-tooltip="tool_tip"
-      @mouseover="selectStyle()"
-      @click="openSetResult()"
-    >
-      <i class="el-icon-user" />
-      <span>{{ teamName }}</span>
-    </div>
+
+    <el-tooltip placement="top" :content="tool_tip">
+      <div class="block" @click="openSetResult()">
+        <i class="el-icon-user" />
+        <span>{{ teamName }}</span>
+      </div>
+    </el-tooltip>
+
     <div class="line-container">
       <div :class="{ 'left-line': !is_left && !isLast }" class="line" />
       <div :class="{ 'right-line': is_left && !isLast }" class="line" />
@@ -49,9 +48,8 @@ export default {
       if (this.teamName === "") {
         this.tool_tip = "No Team";
       } else {
-        this.tool_tip = `${this.teamName} Rate: ${this.rateMap.get(
-          this.teamName
-        )}`;
+        this.tool_tip = `队名：${this.teamName}
+        胜率: ${this.rateMap.get(this.teamName) * 100} %`;
       }
     }
   },
@@ -76,6 +74,7 @@ export default {
   height: 20%;
 }
 .block {
+  cursor: pointer;
   border: 1px solid black;
   border-radius: 5px;
   text-align: center;

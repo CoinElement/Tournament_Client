@@ -33,10 +33,20 @@ export default {
           console.log(response);
           if (response.data.msg == "success") {
             this.$store.commit("user/login", response.data.userName);
-            alert("登录成功!");
+            this.$message({
+              message: "登录成功",
+              type: "success"
+            });
             this.$router.push("/home/");
           } else {
             alert("用户名或密码输入错误!");
+          }
+        })
+        .catch(error => {
+          if (error.response && error.response.status == 400) {
+            this.$message.error("用户名或密码错误");
+          } else {
+            this.$message.error("登录失败");
           }
         });
     }

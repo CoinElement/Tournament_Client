@@ -28,12 +28,13 @@ export default {
   },
   methods: {
     getAllTournament: function() {
+      var lastTourId = this.selectedTournamentId;
       this.axios
         .get(`/alltournament`)
         .then(response => {
           console.log(`GotTournamentList: ${response.data}`);
           this.tournamentList = response.data.tournamentId;
-          if (this.tournamentList[0]) {
+          if (this.tournamentList.indexOf(lastTourId) == -1) {
             this.selectedTournamentId = this.tournamentList[0];
           }
         })

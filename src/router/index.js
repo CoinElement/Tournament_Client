@@ -20,6 +20,9 @@ const routes = [
     path: "/home",
     redirect: "/home/table",
     name: "HomePage",
+    meta: {
+      requireAuth: true
+    },
     component: () => import("@/views/Home"),
     children: [
       {
@@ -39,7 +42,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  //beforeEach是router的钩子函数，在进入路由前执行
   if (to.meta.title) {
     //判断是否有标题
     document.title = to.meta.title;

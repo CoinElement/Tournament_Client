@@ -6,22 +6,24 @@
     width="600px"
     @close="onClose()"
   >
-    <div>
-      <div>
-        Tournament:
-        <el-input
-          v-model="tournamentId"
-          :label="'Tournament:'"
-          :readonly="true"
-        />
-      </div>
-      <div>Round: <el-input v-model="round" :readonly="true" /></div>
-      <div>Table: <el-input v-model="table" :readonly="true" /></div>
-      <el-radio-group v-model="result">
-        <el-radio :label="'TEAM_ONE'">队伍1</el-radio>
-        <el-radio :label="'TEAM_TWO'">队伍2</el-radio>
-      </el-radio-group>
-    </div>
+    <el-form>
+      <el-form-item label="比赛ID:" :label-width="'100px'">
+        <el-input v-model="tournamentId" readonly="true"></el-input>
+      </el-form-item>
+      <el-form-item label="Round:" :label-width="'100px'">
+        <el-input v-model="round" readonly="true"></el-input>
+      </el-form-item>
+      <el-form-item label="Table:" :label-width="'100px'">
+        <el-input v-model="table" readonly="true"></el-input>
+      </el-form-item>
+      <el-form-item label="Winner:" :label-width="'100px'">
+        <el-radio-group v-model="result">
+          <el-radio :label="'TEAM_ONE'">队伍1</el-radio>
+          <el-radio :label="'TEAM_TWO'">队伍2</el-radio>
+        </el-radio-group>
+      </el-form-item>
+    </el-form>
+
     <div slot="footer" class="buttons-wrap">
       <el-button
         type="primary"
@@ -37,6 +39,12 @@
 export default {
   data() {
     return {
+      postData: {
+        tournamentId: "",
+        round: "",
+        table: "",
+        result: "TEAM_ONE"
+      },
       resultDialogVisible: false,
       tournamentId: "",
       round: "",
@@ -58,9 +66,12 @@ export default {
     },
     postSetResult: function(tournamentid, round, table, result) {
       this.axios
-        .post(`/tournament/${this.tournamentId}/${this.round}/${this.table}`, {
-          winner: result
-        })
+        .post(
+          `/tournament/${this.tournamentId}/${this.round}/${this.table + 1}`,
+          {
+            winner: result
+          }
+        )
         .then(response => {
           console.log("SetResult response:", response);
         });

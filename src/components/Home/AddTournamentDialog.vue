@@ -1,11 +1,11 @@
 <template>
-  <el-dialog :visible.sync="dialogVisible" width="600px" @close="onClose()">
+  <el-dialog :visible.sync="dialogVisible" width="600px">
     <h2 slot="title">
       添加比赛
     </h2>
     <el-input v-model="team_input" />
     <div slot="footer" class="buttons-wrap">
-      <el-button @click="parse_teams()" type="primary">
+      <el-button @click="parse_teams" type="primary">
         提交
       </el-button>
     </div>
@@ -35,15 +35,10 @@ export default {
     },
     post_tournament: function(teamNames) {
       this.axios
-        .post(
-          process.env.VUE_APP_BACKEND_BASE +
-            "/tournament/" +
-            localStorage.USER_NAME,
-          {
-            teams: teamNames,
-            format: "SINGLE"
-          }
-        )
+        .post("/tournament/", {
+          teams: teamNames,
+          format: "SINGLE"
+        })
         .then(() => {
           this.$emit("update:startTournamentVisible", false);
         })
