@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <TournamentSelecter @tournamentSelected="tournamentSelected" />
-    <TournamentGraph
-      :tournamentId="tournament_id"
-      @loadFinished="closeMessage"
-    />
+    <TournamentGraph :tournamentId="tournament_id" />
   </div>
 </template>
 
@@ -23,8 +20,7 @@ export default {
   },
   data() {
     return {
-      tournament_id: "",
-      messageObj: null
+      tournament_id: ""
     };
   },
   methods: {

@@ -1,5 +1,9 @@
 <template>
-  <el-dialog :visible.sync="dialogVisiblity" :close-on-click-modal="false">
+  <el-dialog
+    :visible.sync="dialogVisiblity"
+    :close-on-click-modal="false"
+    class="not-select"
+  >
     <h2 slot="title">队伍信息</h2>
 
     <el-form>

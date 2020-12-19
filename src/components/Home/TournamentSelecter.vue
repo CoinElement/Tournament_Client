@@ -1,8 +1,13 @@
 <template>
   <div>
     <el-select id="tours" v-model="selectedTournamentId" style="width:300px">
-      <el-option v-for="tour in tournamentList" :key="tour" :value="tour">
-        {{ tour }}
+      <el-option
+        v-for="tour in tournamentList"
+        :key="tour.tournamentId"
+        :value="tour.tournamentId"
+        :label="tour.tournamentName"
+      >
+        {{ tour.tournamentName }}
       </el-option>
     </el-select>
     <el-button @click="getAllTournament" :loading="loading">
@@ -45,10 +50,12 @@ export default {
           msg.close();
           console.log(`GotTournamentList: ${response.data}`);
           this.$notify.success("比赛列表加载完毕");
-          this.tournamentList = response.data.tournamentId;
-          if (this.tournamentList.indexOf(lastTourId) == -1) {
-            this.selectedTournamentId = this.tournamentList[0];
-          }
+          this.tournamentList = response.data.tournament;
+          this.tournamentList.forEach(element => {
+            if (element.tournamentId != lastTourId) {
+              this.selectedTournamentId = this.tournamentList[0].tournamentId;
+            }
+          });
         })
         .catch(error => {
           msg.close();
@@ -66,6 +73,7 @@ export default {
   },
   watch: {
     selectedTournamentId: function(newVal) {
+      console.log(`TournamentSelecter: ${newVal}`);
       this.$emit("tournamentSelected", newVal);
     }
   }
