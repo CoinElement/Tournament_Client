@@ -38,6 +38,7 @@ export default {
         message: "Refreshing tournament list",
         duration: 0
       });
+
       this.axios
         .get(`/alltournament`)
         .then(response => {
@@ -50,8 +51,13 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          msg.close();
+          this.$notify({
+            type: "error",
+            message: error.message
+          });
         });
+
       this.loading = false;
     },
     openAdd: function() {
