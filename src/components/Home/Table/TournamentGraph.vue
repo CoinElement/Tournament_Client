@@ -47,6 +47,7 @@ export default {
       rateMap: new Map(),
       containerWidth: 0,
       successMessage: null,
+      loadedMessage: null,
       tourStatus: "MATCHING",
       statusTagText: "未知状态",
       statusTagType: "error"
@@ -59,16 +60,26 @@ export default {
         message: "Loading tournament info",
         duration: 0
       });
-      this.axios.get(`/tournament/${this.tournamentId}`).then(response => {
-        this.resRounds = response.data.rounds;
-        response.data.teamInfo.forEach(item => {
-          this.rateMap.set(item.teamName, item.rate);
+      this.axios
+        .get(`/tournament/${this.tournamentId}`)
+        .then(response => {
+          this.resRounds = response.data.rounds;
+          response.data.teamInfo.forEach(item => {
+            this.rateMap.set(item.teamName, item.rate);
+          });
+          this.tourStatus = response.data.status;
+          this.$emit("loadFinished");
+          msg.close();
+          this.showSuccessMessage();
+        })
+        .catch(error => {
+          msg.close();
+          this.$notify({
+            type: "error",
+            message: "加载失败" + error.message,
+            duration: 2000
+          });
         });
-        this.tourStatus = response.data.status;
-        this.$emit("loadFinished");
-        msg.close();
-        this.showSuccessMessage();
-      });
     },
     onBlockClicked: function(round, table, teamName) {
       if (teamName === "") {
