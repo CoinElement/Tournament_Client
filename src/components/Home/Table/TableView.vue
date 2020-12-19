@@ -1,25 +1,30 @@
 <template>
   <div class="container">
     <TournamentSelecter @tournamentSelected="tournamentSelected" />
-    <TournamentGraph :tournamentId="tournament_id" />
-    <StartTournament ref="addtour" />
+    <TournamentGraph
+      :tournamentId="tournament_id"
+      @loadFinished="closeMessage"
+    />
   </div>
 </template>
 
 <script>
 import TournamentGraph from "./TournamentGraph";
-import StartTournament from "../AddTournamentDialog";
 import TournamentSelecter from "../TournamentSelecter";
 
 export default {
   name: "Table",
-  components: { StartTournament, TournamentGraph, TournamentSelecter },
+  components: {
+    TournamentGraph,
+    TournamentSelecter
+  },
   props: {
     // msg: String,
   },
   data() {
     return {
-      tournament_id: ""
+      tournament_id: "",
+      messageObj: null
     };
   },
   methods: {
@@ -28,6 +33,16 @@ export default {
     },
     tournamentSelected: function(tournamentId) {
       this.tournament_id = tournamentId;
+      this.showMessage();
+    },
+    showMessage: function() {
+      this.messageObj = this.$notify({
+        message: "加载中",
+        duration: 0
+      });
+    },
+    closeMessage: function() {
+      this.messageObj ? this.messageObj.close() : "";
     }
   },
   mounted: function() {},

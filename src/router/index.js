@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import home from "./home";
+import login from "./login";
 
 Vue.use(VueRouter);
 
@@ -8,32 +10,8 @@ const routes = [
     path: "/",
     redirect: "/login"
   },
-  {
-    path: "/login",
-    name: "Login",
-    component: () => import("@/views/Login.vue"),
-    meta: {
-      title: "登录"
-    }
-  },
-  {
-    path: "/home",
-    redirect: "/home/table",
-    name: "HomePage",
-    meta: {
-      requireAuth: true
-    },
-    component: () => import("@/views/Home"),
-    children: [
-      {
-        path: "table",
-        component: () => import("@/components/Home/Table/TableView"),
-        meta: {
-          title: "对战表"
-        }
-      }
-    ]
-  }
+  login,
+  home
 ];
 
 const router = new VueRouter({

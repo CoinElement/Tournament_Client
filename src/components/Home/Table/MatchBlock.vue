@@ -2,16 +2,20 @@
   <div class="block-container">
     <div class="up-line" :class="{ 'up-line-show': round != 0 }" />
 
-    <el-tooltip placement="top" :content="tool_tip">
+    <el-tooltip placement="top" :disabled="!has_team">
+      <div slot="content">
+        队名:{{ teamName }}<br />
+        胜率:{{ rate }}
+      </div>
       <div class="block" @click="openSetResult()">
         <i class="el-icon-user" />
         <span>{{ teamName }}</span>
       </div>
     </el-tooltip>
 
-    <div class="line-container">
-      <div :class="{ 'left-line': !is_left && !isLast }" class="line" />
-      <div :class="{ 'right-line': is_left && !isLast }" class="line" />
+    <div class="line-container" v-if="!isLast">
+      <div :class="{ 'left-line': !is_left }" class="line" />
+      <div :class="{ 'right-line': is_left }" class="line" />
     </div>
   </div>
 </template>
@@ -21,7 +25,9 @@ export default {
   data() {
     return {
       tool_tip: "No Team",
-      is_left: true
+      is_left: true,
+      rate: 0,
+      has_team: false
     };
   },
   props: {
@@ -42,14 +48,17 @@ export default {
     },
     openSetResult: function() {
       console.log("Child openSetResult()");
-      this.$emit("openSetResult", this.round, this.table);
+      this.$emit("openSetResult", this.round, this.table, this.teamName);
     },
     updateRate: function() {
       if (this.teamName === "") {
+        this.has_team = false;
         this.tool_tip = "No Team";
       } else {
-        this.tool_tip = `队名：${this.teamName}
-        胜率: ${this.rateMap.get(this.teamName) * 100} %`;
+        this.has_team = true;
+        this.rate = (this.rateMap.get(this.teamName) * 100).toFixed(2) + "%";
+        this.tool_tip = `队名：${this.teamName} <br />
+        胜率: ${(this.rateMap.get(this.teamName) * 100).toFixed(2)} %`;
       }
     }
   },

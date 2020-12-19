@@ -4,13 +4,11 @@ import VueAxios from "vue-axios";
 import axios from "./axios";
 import router from "./router";
 import store from "./store";
-import VTooltip from "v-tooltip";
-import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import ElementUI from "element-ui";
 
 Vue.config.productionTip = false;
 
-Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 

@@ -1,20 +1,20 @@
 <template>
   <el-dialog
-    title="设置比赛结果"
     :visible.sync="resultDialogVisible"
     :close-on-click-modal="false"
     width="600px"
     @close="onClose()"
   >
+    <h2 slot="title" class="not-select">设置比赛结果</h2>
     <el-form>
       <el-form-item label="比赛ID:" :label-width="'100px'">
-        <el-input v-model="tournamentId" readonly="true"></el-input>
+        <el-input v-model="tournamentId" :readonly="true"></el-input>
       </el-form-item>
       <el-form-item label="Round:" :label-width="'100px'">
-        <el-input v-model="round" readonly="true"></el-input>
+        <el-input v-model="round" :readonly="true"></el-input>
       </el-form-item>
       <el-form-item label="Table:" :label-width="'100px'">
-        <el-input v-model="table" readonly="true"></el-input>
+        <el-input v-model="table" :readonly="true"></el-input>
       </el-form-item>
       <el-form-item label="Winner:" :label-width="'100px'">
         <el-radio-group v-model="result">
@@ -25,12 +25,10 @@
     </el-form>
 
     <div slot="footer" class="buttons-wrap">
-      <el-button
-        type="primary"
-        @click="postSetResult(tournamentId, round, table + 1, result)"
-      >
+      <el-button type="primary" @click="postSetResult()">
         提交
       </el-button>
+      <el-button @click="resultDialogVisible = false">取消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -39,12 +37,6 @@
 export default {
   data() {
     return {
-      postData: {
-        tournamentId: "",
-        round: "",
-        table: "",
-        result: "TEAM_ONE"
-      },
       resultDialogVisible: false,
       tournamentId: "",
       round: "",
@@ -64,20 +56,51 @@ export default {
     onClose: function() {
       this.$emit("update:startTournamentVisible", false);
     },
-    postSetResult: function(tournamentid, round, table, result) {
+    postSetResult: function() {
+      var msg = this.$notify({
+        title: "Processing",
+        message: "Requesting set result"
+      });
       this.axios
         .post(
           `/tournament/${this.tournamentId}/${this.round}/${this.table + 1}`,
           {
-            winner: result
+            winner: this.result
           }
         )
         .then(response => {
-          console.log("SetResult response:", response);
+          msg.close();
+          if (response && response.data.winner) {
+            this.$notify.success({
+              title: "Success",
+              message: "比赛结果设置成功"
+            });
+          } else if (response && response.data.winner == null) {
+            this.$notify.warning("前一轮比赛未结束");
+          }
+          this.$emit("resultSetted");
+        })
+        .catch(error => {
+          msg.close();
+          if (error.response && error.response.data.message) {
+            this.$notify.error({
+              title: "Error",
+              message: error.response.data.message
+            });
+          }
         });
+      this.resultDialogVisible = false;
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.not-select {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
+</style>
