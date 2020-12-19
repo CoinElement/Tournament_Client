@@ -33,16 +33,6 @@ export default {
     },
     tournamentSelected: function(tournamentId) {
       this.tournament_id = tournamentId;
-      this.showMessage();
-    },
-    showMessage: function() {
-      this.messageObj = this.$notify({
-        message: "加载中",
-        duration: 0
-      });
-    },
-    closeMessage: function() {
-      this.messageObj ? this.messageObj.close() : "";
     }
   },
   mounted: function() {},

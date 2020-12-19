@@ -55,6 +55,7 @@ export default {
   methods: {
     getTournamentInfo: function() {
       var msg = this.$notify({
+        type: "info",
         message: "Loading tournament info",
         duration: 0
       });
