@@ -34,6 +34,7 @@ export default {
       this.loading = true;
       var lastTourId = this.selectedTournamentId;
       var msg = this.$notify({
+        type: "info",
         message: "Refreshing tournament list",
         duration: 0
       });
