@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card">
-    <el-form model="formData">
+    <el-form :model="formData">
       <el-form-item prop="userName" label="用户名" label-width="70px">
         <el-input v-model="formData.userName" auto-complete="on" />
       </el-form-item>

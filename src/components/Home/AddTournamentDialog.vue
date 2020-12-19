@@ -57,7 +57,7 @@ export default {
         duration: 0
       });
       this.axios
-        .post("/tournament/", {
+        .post("/tournament", {
           tournamentName: this.tournament_name,
           teams: teamNames,
           format: "SINGLE"
@@ -71,7 +71,7 @@ export default {
           }
         })
         .catch(error => {
-          if (error.response && error.response.status == 400) {
+          if (error.response) {
             msg.close();
             this.$notify.error(`参数错误（${error.response.data.message}）`);
             this.$emit("tourCreated");

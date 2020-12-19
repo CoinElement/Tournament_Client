@@ -55,6 +55,8 @@ export default {
   },
   methods: {
     getTournamentInfo: function() {
+      this.resRounds = [];
+      this.tourStatus = "LOADING";
       var msg = this.$notify({
         type: "info",
         message: "Loading tournament info",
@@ -74,6 +76,7 @@ export default {
         })
         .catch(error => {
           msg.close();
+          this.tourStatus = "ERROR";
           this.$notify({
             type: "error",
             message: "加载失败" + error.message,
@@ -105,7 +108,10 @@ export default {
   },
   watch: {
     tourStatus: function(newVal) {
-      if (newVal == "MATCHING") {
+      if (newVal == "LOADING") {
+        this.statusTagText = "加载中";
+        this.statusTagType = "info";
+      } else if (newVal == "MATCHING") {
         this.statusTagText = "比赛进行中";
         this.statusTagType = "warning";
       } else if (newVal == "ENDED") {
