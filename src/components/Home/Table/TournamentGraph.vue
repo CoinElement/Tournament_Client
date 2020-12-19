@@ -1,6 +1,6 @@
 <template>
-  <div
-    class="tournament-container"
+  <el-card
+    class="tournament-container card-box"
     :style="{ maxWidth: containerWidth + 'px' }"
   >
     <SetResultDialog ref="setresult" @resultSetted="onResultSetted" />
@@ -28,7 +28,7 @@
         :isLast="rIndex == resRounds.length - 1"
       />
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -123,7 +123,6 @@ export default {
   min-width: 400px;
   margin: 20px auto;
   margin-right: auto;
-  border: 1px solid black;
   border-radius: 5px;
   padding: 10px;
 }

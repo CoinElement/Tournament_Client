@@ -6,17 +6,17 @@
     @close="onClose()"
   >
     <h2 slot="title" class="not-select">设置比赛结果</h2>
-    <el-form>
-      <el-form-item label="比赛ID:" :label-width="'100px'">
+    <el-form class="not-select">
+      <el-form-item label="比赛ID:" :label-width="'80px'">
         <el-input v-model="tournamentId" :readonly="true"></el-input>
       </el-form-item>
-      <el-form-item label="Round:" :label-width="'100px'">
+      <el-form-item label="Round:" :label-width="'80px'">
         <el-input v-model="round" :readonly="true"></el-input>
       </el-form-item>
-      <el-form-item label="Table:" :label-width="'100px'">
+      <el-form-item label="Table:" :label-width="'80px'">
         <el-input v-model="table" :readonly="true"></el-input>
       </el-form-item>
-      <el-form-item label="Winner:" :label-width="'100px'">
+      <el-form-item label="Winner:" :label-width="'80px'">
         <el-radio-group v-model="result">
           <el-radio :label="'TEAM_ONE'">队伍1</el-radio>
           <el-radio :label="'TEAM_TWO'">队伍2</el-radio>
@@ -95,12 +95,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.not-select {
-  -moz-user-select: none; /*火狐*/
-  -webkit-user-select: none; /*webkit浏览器*/
-  -ms-user-select: none; /*IE10*/
-  -khtml-user-select: none; /*早期浏览器*/
-  user-select: none;
-}
-</style>
+<style scoped></style>

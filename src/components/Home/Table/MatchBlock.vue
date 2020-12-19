@@ -1,5 +1,5 @@
 <template>
-  <div class="block-container">
+  <div class="block-container not-select">
     <div class="up-line" :class="{ 'up-line-show': round != 0 }" />
 
     <el-tooltip placement="top" :disabled="!has_team">

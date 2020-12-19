@@ -5,8 +5,10 @@
         {{ tour }}
       </el-option>
     </el-select>
-    <el-button @click="getAllTournament"> 刷新列表 </el-button>
-    <el-button @click="openAdd"> 添加比赛 </el-button>
+    <el-button @click="getAllTournament" :loading="loading">
+      刷新列表
+    </el-button>
+    <el-button type="primary" @click="openAdd"> 创建比赛 </el-button>
     <StartTournament ref="addtour" @tourCreated="getAllTournament" />
   </div>
 </template>
@@ -20,7 +22,8 @@ export default {
   data() {
     return {
       selectedTournamentId: "",
-      tournamentList: []
+      tournamentList: [],
+      loading: true
     };
   },
   created: function() {
@@ -28,6 +31,7 @@ export default {
   },
   methods: {
     getAllTournament: function() {
+      this.loading = true;
       var lastTourId = this.selectedTournamentId;
       var msg = this.$notify({
         message: "Refreshing tournament list",
@@ -47,6 +51,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      this.loading = false;
     },
     openAdd: function() {
       this.$refs.addtour.$emit("open");
