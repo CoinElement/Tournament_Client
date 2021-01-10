@@ -43,7 +43,7 @@ export default {
         .then(response => {
           console.log(response);
           if (response.data.msg == "success") {
-            this.$store.commit("user/login", response.data.userName);
+            this.$store.commit("user/login", response.data.token);
             notifi.close();
             this.$notify({
               message: "登录成功",

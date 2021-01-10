@@ -12,7 +12,7 @@ const _axios = axiosOriginObj.create(defaultConfig);
 
 _axios.interceptors.request.use(config => {
   config.headers.Authorization = store.state.user.token;
-  config.headers.common["User-Name"] = store.state.user.token;
+  config.headers.common["token"] = store.state.user.token;
   return config;
 });
 

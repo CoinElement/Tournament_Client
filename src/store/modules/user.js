@@ -1,17 +1,15 @@
 const state = {
-  token: localStorage.getItem("USER_TOKEN")
-    ? localStorage.getItem("USER_TOKEN")
-    : ""
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : ""
 };
 
 const mutations = {
   login: (state, token) => {
     state.token = token;
-    localStorage.setItem("USER_TOKEN", token);
+    localStorage.setItem("token", token);
   },
   logout: state => {
     state.token = null;
-    localStorage.removeItem("USER_TOKEN");
+    localStorage.removeItem("token");
   }
 };
 
