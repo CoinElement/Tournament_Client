@@ -7,26 +7,29 @@
     <TeamInfoDialog ref="teamInfoDialog" />
     <div>
       <el-button @click="getTournamentInfo()">刷新</el-button>
-      <el-tag :type="statusTagType" style="margin:10px">{{
+      <el-button @click="saveImage()">下载</el-button>
+      <el-tag :type="statusTagType" style="margin: 10px">{{
         statusTagText
       }}</el-tag>
     </div>
 
-    <div
-      class="round-container"
-      v-for="(round, rIndex) in resRounds"
-      :key="rIndex"
-    >
-      <MatchBlock
-        v-for="(teamName, tIndex) in round.teams"
-        @openSetResult="onBlockClicked"
-        :key="tIndex"
-        :teamName="teamName"
-        :round="rIndex"
-        :table="tIndex"
-        :rateMap="rateMap"
-        :isLast="rIndex == resRounds.length - 1"
-      />
+    <div ref="tourGraph">
+      <div
+        class="round-container"
+        v-for="(round, rIndex) in resRounds"
+        :key="rIndex"
+      >
+        <MatchBlock
+          v-for="(teamName, tIndex) in round.teams"
+          @openSetResult="onBlockClicked"
+          :key="tIndex"
+          :teamName="teamName"
+          :round="rIndex"
+          :table="tIndex"
+          :rateMap="rateMap"
+          :isLast="rIndex == resRounds.length - 1"
+        />
+      </div>
     </div>
   </el-card>
 </template>
@@ -35,6 +38,7 @@
 import SetResultDialog from "./SetResultDialog";
 import MatchBlock from "./MatchBlock";
 import TeamInfoDialog from "../TeamInfoDialog.vue";
+import html2canvas from "html2canvas";
 
 export default {
   components: { SetResultDialog, MatchBlock, TeamInfoDialog },
@@ -104,6 +108,28 @@ export default {
         message: "Tournament info loaded",
         duration: 2000
       });
+    },
+    saveImage: function() {
+      let ref = this.$refs.tourGraph; // 截图区域
+      console.log(ref);
+      html2canvas(ref, {
+        backgroundColor: null
+      })
+        .then(canvas => {
+          let dataURL = canvas.toDataURL("image/png");
+          this.dataURL = dataURL;
+          let creatDom = document.createElement("a");
+          document.body.appendChild(creatDom);
+          creatDom.href = dataURL;
+          creatDom.download = "tournament graph";
+          creatDom.click();
+        })
+        .catch(() => {
+          this.$notify({
+            message: "图片生成失败",
+            type: "error"
+          });
+        });
     }
   },
   watch: {
