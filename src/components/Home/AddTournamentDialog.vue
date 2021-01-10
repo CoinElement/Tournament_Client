@@ -17,6 +17,18 @@
       <el-form-item label="队伍列表：" :label-width="'100px'">
         <el-input v-model="team_input" />
       </el-form-item>
+      <el-form-item label="赛制：" :label-width="'100px'">
+        <el-select v-model="format" placeholder="请选择" style="width:460px">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :disabled="item.disabled"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
 
     <!-- footer -->
@@ -35,7 +47,19 @@ export default {
     return {
       team_input: process.env.VUE_APP_START_TOURNAMENT_INITIAL_DATA,
       dialogVisible: false,
-      tournament_name: ""
+      tournament_name: "",
+      options: [
+        {
+          value: "SINGLE",
+          label: "SINGLE"
+        },
+        {
+          value: "CONSOLATION",
+          label: "CONSOLATION",
+          disabled: true
+        }
+      ],
+      format: ""
     };
   },
   created: function() {
@@ -60,7 +84,7 @@ export default {
         .post("/tournament", {
           tournamentName: this.tournament_name,
           teams: teamNames,
-          format: "SINGLE"
+          format: this.format
         })
         .then(response => {
           msg.close();
