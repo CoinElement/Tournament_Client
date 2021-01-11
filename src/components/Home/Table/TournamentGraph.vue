@@ -123,10 +123,14 @@ export default {
           creatDom.href = dataURL;
           creatDom.download = "tournament graph";
           creatDom.click();
+          this.$notify({
+            message: "对战表下载成功",
+            type: "success"
+          });
         })
         .catch(() => {
           this.$notify({
-            message: "图片生成失败",
+            message: "对战表下载失败",
             type: "error"
           });
         });
